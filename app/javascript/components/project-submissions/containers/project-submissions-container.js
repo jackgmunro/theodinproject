@@ -4,6 +4,7 @@ import SubmissionsList from '../components/submissions-list'
 import Modal from '../components/modal'
 import CreateSubmissionForm from '../components/create-submission-form'
 import EditSubmissionForm from '../components/edit-submission-form'
+import ReportForm from '../components/report-form'
 import axios from '../../../src/js/axiosWithCsrf';
 
 class ProjectSubmissions extends React.Component {
@@ -11,6 +12,7 @@ class ProjectSubmissions extends React.Component {
     state = {
       showCreateModal: false,
       showEditModal: false,
+      showReportModal: false,
       submissions: this.props.submissions
     }
 
@@ -119,6 +121,14 @@ class ProjectSubmissions extends React.Component {
             </Modal>
           }
 
+          <Modal show={this.state.showReportModal} handleClose={() => this.hideModal("Report")}>
+            <ReportForm
+              submission={this.userSubmission()}
+              onSubmit={this.handleUpdate}
+              onClose={() => this.hideModal("Report")}
+            />
+          </Modal>
+
           <div>
             { !this.userSubmission() &&
               <button
@@ -131,7 +141,12 @@ class ProjectSubmissions extends React.Component {
           </div>
         </div>
 
-        <SubmissionsList submissions={submissions} userId={userId} openEditModal={() => this.openModal("Edit")} />
+        <SubmissionsList
+          submissions={submissions}
+          userId={userId}
+          openEditModal={() => this.openModal("Edit")}
+          openReportModal={() => this.openModal("Report")}
+        />
       </div>
     )
   }
